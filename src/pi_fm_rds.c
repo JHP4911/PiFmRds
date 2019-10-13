@@ -176,10 +176,10 @@
 #define PWMCLK_CNTL        40
 #define PWMCLK_DIV        41
 
-#define CM_GP0DIV (0x7e101074)
+#define CM_GP0DIV (0x7e10107c)
 
-#define GPCLK_CNTL        (0x70/4)
-#define GPCLK_DIV        (0x74/4)
+#define GPCLK_CNTL        (0x78/4)
+#define GPCLK_DIV        (0x7c/4)
 
 #define PWMCTL_MODE1        (1<<1)
 #define PWMCTL_PWEN1        (1<<0)
@@ -191,7 +191,7 @@
 // which is what we want as burst DMA would mess up our timing.
 #define PWMDMAC_THRSHLD        ((15<<8)|(15<<0))
 
-#define GPFSEL0            (0x00/4)
+#define GPFSEL0            (0x08/4)
 
 // The deviation specifies how wide the signal is. Use 25.0 for WBFM
 // (broadcast radio) and about 3.5 for NBFM (walkie-talkie style radio)
@@ -244,8 +244,8 @@ terminate(int num)
 {
     // Stop outputting and generating the clock.
     if (clk_reg && gpio_reg && mbox.virt_addr) {
-        // Set GPIO4 to be an output (instead of ALT FUNC 0, which is the clock).
-        gpio_reg[GPFSEL0] = (gpio_reg[GPFSEL0] & ~(7 << 12)) | (1 << 12);
+        // Set GPIO21 to be an output (instead of ALT FUNC 0, which is the clock).
+        gpio_reg[GPFSEL0] = (gpio_reg[GPFSEL0] & ~(7 << 3)) | (1 << 3);
 
         // Disable the clock generator.
         clk_reg[GPCLK_CNTL] = 0x5A;
@@ -353,8 +353,8 @@ int tx(uint32_t carrier_freq, char *audio_file, uint16_t pi, char *ps, char *rt,
     printf("virt_addr = %p\n", mbox.virt_addr);
     
 
-    // GPIO4 needs to be ALT FUNC 0 to output the clock
-    gpio_reg[GPFSEL0] = (gpio_reg[GPFSEL0] & ~(7 << 12)) | (4 << 12);
+    // GPIO21 needs to be ALT FUNC 5 to output the clock
+    gpio_reg[GPFSEL0] = (gpio_reg[GPFSEL0] & ~(7 << 3)) | (2 << 3);
 
     // Program GPCLK to use MASH setting 1, so fractional dividers work
     clk_reg[GPCLK_CNTL] = 0x5A << 24 | 6;

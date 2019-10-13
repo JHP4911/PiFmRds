@@ -39,7 +39,7 @@ If `make` reports no error (i.e. the `pi_fm_rds` executable gets generated), you
 sudo ./pi_fm_rds
 ```
 
-This will generate an FM transmission on 107.9 MHz, with default station name (PS), radiotext (RT) and PI-code, without audio. The radiofrequency signal is emitted on GPIO 4 (pin 7 on header P1).
+This will generate an FM transmission on 107.9 MHz, with default station name (PS), radiotext (RT) and PI-code, without audio. The radiofrequency signal is emitted on GPIO 21 (pin 40 on header P1).
 
 
 You can add monophonic or stereophonic audio by referencing an audio file as follows:
